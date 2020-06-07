@@ -17,9 +17,6 @@ public class HomeServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String path = request.getServletPath();
 		if (path.equals("/")) {
-			ArrayList<Notebook> products = PropertiesDB.select();
-			// String data = products.get(1).getName();
-			request.setAttribute("products", products);
 			request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);
 		} else if (path.equals("/welcome")) {
 			ArrayList<Notebook> products = PropertiesDB.select();
@@ -96,6 +93,37 @@ public class HomeServlet extends HttpServlet {
 		        catch(Exception ex) {
 		            getServletContext().getRequestDispatcher("/WEB-INF/view/notfound.jsp").forward(request, response);
 		        }
+		}
+		
+		if (path.equals("/")) {
+			try {
+				ArrayList<Account> products = PropertiesDB.selectAccount();
+				Account product_by_id = null;
+				boolean key = false;// ключ , позволяющий узнать, правильный был введен ли пароль  и mail
+				String mail = request.getParameter("mail"); 
+				String password = request.getParameter("password"); 
+				// Проверка на совпадение mail и password
+				for(Account product : products) {					
+					if(product.getMail().equals(mail) && product.getPassword().equals(password)) {
+						key= true;
+						product_by_id = product;
+					}
+				}
+				if(key) {
+					request.setAttribute("product", product_by_id);
+					getServletContext().getRequestDispatcher("/WEB-INF/view/welcome.jsp").forward(request, response); 
+					
+				}else {
+					getServletContext().getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);  
+				}
+			
+				
+	        }
+	        catch(Exception ex) {
+	             
+	            getServletContext().getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);   
+	        }
+			
 		}
 		
 		

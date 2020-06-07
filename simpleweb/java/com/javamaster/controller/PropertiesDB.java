@@ -3,13 +3,6 @@ package com.javamaster.controller;
 import java.sql.*;
 import java.util.ArrayList;
 
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class PropertiesDB {
 	 private static String url = "jdbc:postgresql://localhost:5432/SoftIndustry";
 	    private static String username = "postgres";
@@ -145,6 +138,33 @@ public class PropertiesDB {
 	        }
 	        return 0;
 	    }
+	    
+	    
+	    public static ArrayList<Account> selectAccount() {
+	    ArrayList<Account> products = new ArrayList<Account>();
+        try{
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)){
+                  
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM account");
+                while(resultSet.next()){
+                      
+                    int idAccount = resultSet.getInt(1);
+                    String mail = resultSet.getString(2);
+                    String password = resultSet.getString(3);
+                    
+
+                    Account product = new Account(idAccount,mail, password);
+                    products.add(product);
+                }
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex);
+        }
+        return products;
+    }
 	    
 	    
 	    
