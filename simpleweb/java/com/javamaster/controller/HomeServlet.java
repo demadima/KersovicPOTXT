@@ -18,6 +18,8 @@ public class HomeServlet extends HttpServlet {
 		String path = request.getServletPath();
 		if (path.equals("/")) {
 			request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);
+		}else if (path.equals("/createAccount")) {
+			request.getRequestDispatcher("/WEB-INF/view/createAccount.jsp").forward(request, response);
 		} else if (path.equals("/welcome")) {
 			ArrayList<Notebook> products = PropertiesDB.select();
 			// String data = products.get(1).getName();
@@ -126,6 +128,26 @@ public class HomeServlet extends HttpServlet {
 			
 		}
 		
+		
+		if (path.equals("/createAccount")) {
+			
+			try {
+				
+					String mail = request.getParameter("mail");
+					String password = request.getParameter("password");
+				
+			//	if(!mail.equals("") || !password.equals("") ) {
+					Account product = new Account(mail, password);
+				
+					PropertiesDB.insert(product);
+					response.sendRedirect(request.getContextPath()+"/");
+				//}
+	        }
+	        catch(Exception ex) {
+	             
+	            getServletContext().getRequestDispatcher("/WEB-INF/view/createAccount.jsp").forward(request, response);   
+	        }
+		}
 		
 	}
 }

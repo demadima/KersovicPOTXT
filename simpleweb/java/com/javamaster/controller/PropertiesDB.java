@@ -166,6 +166,25 @@ public class PropertiesDB {
         return products;
     }
 	    
-	    
+	    public static int insert(Account product) {
+	         
+	        try{
+	            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
+	            try (Connection conn = DriverManager.getConnection(url, username, password)){
+	                  
+	            	  String sql = "INSERT INTO account (mail, password ) Values (?, ?)";
+	                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
+	                	preparedStatement.setString(1, product.getMail());
+	                    preparedStatement.setString(2, product.getPassword());
+	                      
+	                    return  preparedStatement.executeUpdate();
+	                }
+	            }
+	        }
+	        catch(Exception ex){
+	            System.out.println(ex);
+	        }
+	        return 0;
+	    }
 	    
 }

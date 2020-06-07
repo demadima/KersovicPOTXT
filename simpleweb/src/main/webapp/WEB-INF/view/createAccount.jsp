@@ -29,25 +29,24 @@
 			<div class="col">
 				<div class="card"
 					style="margin-top: 45px; margin-left: 200px; margin-right: 200px">
-					<div class="card-header">Login</div>
+					<div class="card-header">New Account</div>
 					<div class="card-body">
 
 						<p class="card-text">
 						<form method="post">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Email address</label> <input
+								<label for="exampleInputEmail1">Please write your Email address</label> <input
 									type="email" name="mail" class="form-control" id="exampleInputEmail1"
 									aria-describedby="emailHelp"> <small id="emailHelp"
 									class="form-text text-muted">We'll never share your
 									email with anyone else.</small>
 							</div>
 							<div class="form-group">
-								<label for="exampleInputPassword1">Password</label> <input
+								<label for="exampleInputPassword1">Please write your Password</label> <input
 									type="password" name="password" class="form-control" id="exampleInputPassword1">
 							</div>
 							
 							<button type="submit" class="btn btn-primary">Submit</button>
-							<button type="button" onClick='location.href="/createAccount"' class="btn btn-primary">New Account</button>
 						</form>
 						</p>
 
