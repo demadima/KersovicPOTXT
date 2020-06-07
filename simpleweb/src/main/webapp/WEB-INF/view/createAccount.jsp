@@ -47,6 +47,9 @@
 							</div>
 							
 							<button type="submit" class="btn btn-primary">Submit</button>
+							
+								
+							<button type="button"  onClick='location.href="/"'  class="btn btn-primary">back</button>
 						</form>
 						</p>
 

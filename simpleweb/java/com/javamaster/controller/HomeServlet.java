@@ -113,7 +113,7 @@ public class HomeServlet extends HttpServlet {
 				}
 				if(key) {
 					request.setAttribute("product", product_by_id);
-					getServletContext().getRequestDispatcher("/WEB-INF/view/welcome.jsp").forward(request, response); 
+					response.sendRedirect(request.getContextPath()+"/welcome");
 					
 				}else {
 					getServletContext().getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);  
