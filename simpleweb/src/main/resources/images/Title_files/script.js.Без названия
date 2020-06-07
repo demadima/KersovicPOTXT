@@ -1,0 +1,303 @@
+'use strict'
+
+$(document).ready(function() {
+    //Header fixed
+    window.onscroll = function(){
+        if ($(window).scrollTop()>50) {
+            $('body').addClass('collapse_header');
+        } else {
+            $('body').removeClass('collapse_header');
+        }
+    };
+
+    //Humburger active / mobile menu open / close
+    $('.header-mobile__menu ').click(function(){
+        $(this).toggleClass('open');
+        $('.header__nav').toggleClass('header__nav--active');
+        $('body').toggleClass('body-active');
+    });
+
+    //Modal search open / close
+    $('.header__search').on('click', function () {
+        $('.modal-search__wrapper').addClass('modal-search__wrapper--active');
+    });
+
+    $('.modal-search__wrapper').on('click', function (e) {
+        if(e.target.className === 'modal-search__wrapper modal-search__wrapper--active') {
+            $('.modal-search__wrapper').removeClass('modal-search__wrapper--active');
+        }
+    });
+
+
+    // Banner Slider
+    $('.banner__slider').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        appendDots: $('.banner > .container'),
+        dots: true,
+        arrows: false,
+        fade: true,
+        autoplay: true,
+    });
+
+    // Info slider
+    $('.info__slider').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: true,
+        variableWidth: true,
+        nextArrow: '<span class="info-slider__right icon-right-open-big"></span>',
+        prevArrow: '<span class="info-slider__left icon-left-open-big"></span>',
+        responsive: [
+            {
+                breakpoint: 1199,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: true,
+                    variableWidth: true,
+                    nextArrow: '<span class="info-slider__right icon-right-open-big"></span>',
+                    prevArrow: '<span class="info-slider__left icon-left-open-big"></span>',
+                }
+            },
+            {
+                breakpoint: 991,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: true,
+                    variableWidth: true,
+                    nextArrow: '<span class="info-slider__right icon-right-open-big"></span>',
+                    prevArrow: '<span class="info-slider__left icon-left-open-big"></span>',
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: true,
+                    centerMode: true,
+                    variableWidth: true,
+                    nextArrow: '<span class="info-slider__right icon-right-open-big"></span>',
+                    prevArrow: '<span class="info-slider__left icon-left-open-big"></span>',
+                }
+            },
+        ]
+    });
+
+    // Popover for info and blog
+    $('.share-item').popover({
+        trigger: 'focus',
+        container: 'body',
+        template: '<div class="share__hover popover"><div class="arrow"></div><span class="popover__title">Jetzt teilen</span><ul class="popover__social"><li><a href="" class="icon-facebook" onclick="Share.facebook(\'\')"></a></li><li><a href="" class="icon-instagram" onclick="Share.instagram(\'\')"></a></li><li><a href="" class="icon-pinterest" onclick="Share.pinterest(\'\')"></a></li><li><a href="" class="icon-whatsapp" onclick="Share.whatsup(\'\')"></a></li></ul></div>',
+    });
+
+    $('.share-item').on('shown.bs.popover', function () {
+        $('.share__hover .icon-facebook').attr('href', $(this).attr('data-facebook'));
+        $('.share__hover .icon-instagram').attr('href', $(this).attr('data-instagram'));
+        $('.share__hover .icon-twitter').attr('href', $(this).attr('data-twitter'));
+        $('.share__hover .icon-whatsapp').attr('href', $(this).attr('data-whatsapp'));
+    });
+
+    var Share = {
+        facebook: function (purl) {
+            var url = 'https://www.facebook.com/sharer/sharer.php?=';
+            url += '&u=' + encodeURIComponent(purl);
+            Share.popup(url);
+            },
+        instagram: function (purl, ptitle) {
+            var url = ''; // https://twitter.com/intent/tweet?
+            url += 'text=' + encodeURIComponent(ptitle);
+            url += '&url=' + encodeURIComponent(purl);
+            url += '&counturl=' + encodeURIComponent(purl);
+            Share.popup(url);
+            },
+        pinterest: function (link) {
+            var url = 'https://pinterest.com/pin/create/button/?url=http://win4win.zen.cheitgrou.com/win4win/product-card.php&media=&description='; // https://twitter.com/intent/tweet?
+            url += '&url=' + encodeURIComponent(link);
+            Share.popup(url);
+            },
+        whatsup: function (link) {
+            var url = 'whatsapp://send?text=http://win4win.zen.cheitgroup.com/win4win/product-card.php'; // https://twitter.com/intent/tweet?
+            url += '&url=' + encodeURIComponent(link);
+            Share.popup(url);
+            },
+        popup: function (url) {
+            window.open(url, '', 'toolbar=0, status=0, width=626, height=436');
+            event.preventDefault();
+            },
+    };
+
+
+    // Footer change languages
+    $('.footer-copywrite__lang-toggle').on('click',function () {
+        $('.footer-copywrite__lang-toggle').toggleClass('rotate');
+    });
+
+    $('.footer-copywrite__lang').on("click", function () {
+        $('.footer-copywrite__img').attr("src", $(this).data('flag'));
+        $('.footer-copywrite__lang-active').html($(this).data('lang'))
+        $('.footer-copywrite__lang-toggle').removeClass('rotate');
+    });
+
+    // Popup thanks
+    var screenWidth = $(window).width();
+
+    $('.js-popup-send-open').on('click', function (e) {
+        e.preventDefault();
+        $('.modal-send__wrapper').addClass('modal-send__wrapper--active');
+        $('body').addClass('body-active');
+        if(screenWidth > 1199) {
+            $('body').css('padding-right', '17px');
+        }
+    });
+
+    $('.modal-send__close').on('click', function () {
+        $('.modal-send__wrapper').removeClass('modal-send__wrapper--active');
+        $('body').removeClass('body-active');
+        if(screenWidth > 1199) {
+            $('body').css('padding-right', '0');
+        }
+    });
+
+    $('.modal-send__wrapper ').on('click', function (e) {
+        if (e.target.className === 'modal-send__wrapper modal-send__wrapper--active') {
+            $('.modal-send__wrapper ').removeClass('modal-send__wrapper--active');
+            $('body').removeClass('body-active');
+            if(screenWidth > 1199) {
+                $('body').css('padding-right', '0');
+            }
+        }
+    });
+
+    // Popup coupon
+    $('.js-coupon-open').on('click', function () {
+        $('.modal-coupon__wrapper').addClass('modal-coupon__wrapper--active');
+        $('body').addClass('body-active');
+        if(screenWidth > 1199) {
+            $('body').css('padding-right', '17px');
+        }
+    });
+
+    $('.modal-coupon__close').on('click', function () {
+        $('.modal-coupon__wrapper').removeClass('modal-coupon__wrapper--active');
+        $('body').removeClass('body-active');
+        if(screenWidth > 1199) {
+            $('body').css('padding-right', '0');
+        }
+    });
+
+    $('.modal-coupon__wrapper ').on('click', function (e) {
+        if (e.target.className === 'modal-coupon__wrapper modal-coupon__wrapper--active') {
+            $('.modal-coupon__wrapper ').removeClass('modal-coupon__wrapper--active');
+            $('body').removeClass('body-active');
+            if(screenWidth > 1199) {
+                $('body').css('padding-right', '0');
+            }
+        }
+    });
+
+    //Plagin copy text
+    $('.js-code__copied').on("click", function () {
+        new ClipboardJS('.js-code__copied');
+
+        $('.modal-copied__wrapper').addClass('modal-copied__wrapper--active');
+        setTimeout(function(){
+            $('.modal-copied__wrapper').removeClass('modal-copied__wrapper--active');
+        },1500);
+    });
+
+
+
+    $('.modal-copied__wrapper').on("click", function (e) {
+        if (e.target.className === 'modal-copied__wrapper modal-copied__wrapper--active') {
+            $('.modal-copied__wrapper ').removeClass('modal-copied__wrapper--active');
+        }
+    });
+
+
+    // Page product
+    // Product-form change dropdown
+    if($('.product-form__select').length > 0 ) {
+        $('.product-form__select').selectpicker();
+    }
+
+    // Product-partners-slider
+    $('.product-partners__slider').slick({
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: true,
+        nextArrow: '<span class="product-partners__right icon-right-open-big"></span>',
+        prevArrow: '<span class="product-partners__left icon-left-open-big"></span>',
+        responsive: [
+            {
+                breakpoint: 1199,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: true,
+                    variableWidth: true,
+                    nextArrow: '<span class="product-partners__right icon-right-open-big"></span>',
+                    prevArrow: '<span class="product-partners__left icon-left-open-big"></span>',
+                }
+            },
+            {
+                breakpoint: 991,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: true,
+                    variableWidth: true,
+                    nextArrow: '<span class="product-partners__right icon-right-open-big"></span>',
+                    prevArrow: '<span class="product-partners__left icon-left-open-big"></span>',
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                    arrows: true,
+                    centerMode: true,
+                    variableWidth: true,
+                    nextArrow: '<span class="product-partners__right icon-right-open-big"></span>',
+                    prevArrow: '<span class="product-partners__left icon-left-open-big"></span>',
+                }
+            },
+        ]
+    });
+
+    // Page blog-item
+    // comments select
+    if($('.comments__select').length > 0 ) {
+        $('.comments__select').selectpicker();
+    }
+
+    // Page contacts Scroll dawn
+    $(".contacts-banner__scroll").on("click", function(event) {
+        event.preventDefault();
+        var hash = $(this).attr('href');
+        $("html, body").animate({
+            scrollTop: $(hash).offset().top
+        },1000);
+    });
+});
+
