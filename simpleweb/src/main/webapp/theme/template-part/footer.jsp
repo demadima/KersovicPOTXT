@@ -24,7 +24,7 @@
                             </h4>
                             <ul id="menu-footer_menu" class="footer__nav">
 	                            <li id="menu-item-6696" class="menu-item menu-item-type-wettbewerb menu-item-object-cpt-archive menu-item-6696">
-		                            <a href="/create">Login on our site</a>
+		                         <!--  <a href="/create" >Login on our site</a> -->   
 		                          </li>
                             </ul>
                         </div>

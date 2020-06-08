@@ -25,7 +25,7 @@
 			<div class="row">
 				<div class="col-md-2 col-4">
 					<div class="header__logo">
-						<a href="/welcome"> <img src="/theme/images/Logo.png"
+						<a href='<c:url value="/welcome?mail=${mail}" />'> <img src="/theme/images/Logo.png"
 							alt="Global info">
 						</a>
 					</div>
