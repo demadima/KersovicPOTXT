@@ -9,29 +9,32 @@ public class PropertiesDB {
 	    
 	    private static String password = "d121212d";
 	    
-	    public static ArrayList<Notebook> select() {
+	    public static ArrayList<Notebook> select(String mail) {
 
 	         
 	        ArrayList<Notebook> products = new ArrayList<Notebook>();
 	        try{
 	            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
 	            try (Connection conn = DriverManager.getConnection(url, username, password)){
-	                  
-	                Statement statement = conn.createStatement();
-	                ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
-	                while(resultSet.next()){
-	                      
-	                    int id = resultSet.getInt(1);
-	                    String surname = resultSet.getString(2);
-	                    String name = resultSet.getString(3);
-	                    int age = resultSet.getInt(4);
-	                    String sex = resultSet.getString(5);
-	                    String phone = resultSet.getString(6);
-	                    
-	                    
-	                    Notebook product = new Notebook(id,surname, name,age ,sex ,phone);
-	                    products.add(product);
-	                }
+	            	  String sql = "SELECT * FROM users WHERE mail = ?";
+		                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
+		                	 preparedStatement.setString(1,mail);
+			                 ResultSet resultSet = preparedStatement.executeQuery();
+			                 while(resultSet.next()){
+			                      
+				                    int id = resultSet.getInt(1);
+				                    String surname = resultSet.getString(2);
+				                    String name = resultSet.getString(3);
+				                    int age = resultSet.getInt(4);
+				                    String sex = resultSet.getString(5);
+				                    String phone = resultSet.getString(6);
+				                  
+				                    
+				                    
+				                    Notebook product = new Notebook(id,surname, name,age ,sex ,phone , mail);
+				                    products.add(product);
+				                }
+		                }
 	            }
 	        }
 	        catch(Exception ex){
@@ -46,13 +49,14 @@ public class PropertiesDB {
 	            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
 	            try (Connection conn = DriverManager.getConnection(url, username, password)){
 	                  
-	                String sql = "INSERT INTO users (surname, name , age , sex , phone) Values (?, ?, ?, ?, ?)";
+	                String sql = "INSERT INTO users (surname, name , age , sex , phone , mail) Values (?, ?, ?, ?, ?, ?)";
 	                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
 	                    preparedStatement.setString(1, product.getSurname());
 	                    preparedStatement.setString(2, product.getName());
 	                    preparedStatement.setInt(3, product.getAge());
 	                    preparedStatement.setString(4, product.getSex());
-	                    preparedStatement.setString(5, product.getPhone());                     	                      
+	                    preparedStatement.setString(5, product.getPhone());   
+	                    preparedStatement.setString(6, product.getMail());                 	                      
 	                    return  preparedStatement.executeUpdate();
 	                }
 	            }
@@ -70,14 +74,15 @@ public class PropertiesDB {
 	            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
 	            try (Connection conn = DriverManager.getConnection(url, username, password)){
 	                  
-	                String sql = "UPDATE users SET surname = ?, name = ? , age = ? , sex = ? , phone = ? WHERE id = ?";
+	                String sql = "UPDATE users SET surname = ?, name = ? , age = ? , sex = ? , phone = ? , mail = ? WHERE id = ?";
 	                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
 	                    preparedStatement.setString(1, product.getSurname());
 	                    preparedStatement.setString(2, product.getName());
 	                    preparedStatement.setInt(3, product.getAge());
 	                    preparedStatement.setString(4, product.getSex());
-	                    preparedStatement.setString(5, product.getPhone());  
-	                    preparedStatement.setInt(6, product.getId());
+	                    preparedStatement.setString(5, product.getPhone());
+	                    preparedStatement.setString(6, product.getMail());
+	                    preparedStatement.setInt(7, product.getId());
 	                      
 	                    return  preparedStatement.executeUpdate();
 	                }
@@ -108,8 +113,9 @@ public class PropertiesDB {
 	                        int age = resultSet.getInt(4);
 	                        String sex = resultSet.getString(5);
 	                        String phone = resultSet.getString(6);
+	                        String mail = resultSet.getString(7);
 	                        
-	                        product = new Notebook(prodid,surname, name,age ,sex ,phone);
+	                        product = new Notebook(prodid,surname, name,age ,sex ,phone,mail);
 	                    }
 	                }
 	            }

@@ -22,11 +22,15 @@ public class HomeServlet extends HttpServlet {
 		} else if (path.equals("/createAccount")) {
 			request.getRequestDispatcher("/WEB-INF/view/createAccount.jsp").forward(request, response);
 		} else if (path.equals("/welcome")) {
-			ArrayList<Notebook> products = PropertiesDB.select();
+			String mail = request.getParameter("mail");
+			ArrayList<Notebook> products = PropertiesDB.select(mail);
 			// String data = products.get(1).getName();
 			request.setAttribute("products", products);
+			request.setAttribute("mail", mail);
 			request.getRequestDispatcher("/WEB-INF/view/welcome.jsp").forward(request, response);
 		} else if (path.equals("/create")) {
+			String mail = request.getParameter("mail");
+			request.setAttribute("mail", mail);
 			getServletContext().getRequestDispatcher("/WEB-INF/view/create.jsp").forward(request, response);
 
 		} else if (path.equals("/edit")) {
@@ -34,6 +38,7 @@ public class HomeServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 				Notebook product = PropertiesDB.selectOne(id);
 				if (product != null) {
+					
 					request.setAttribute("product", product);
 					getServletContext().getRequestDispatcher("/WEB-INF/view/edit.jsp").forward(request, response);
 				} else {
@@ -57,10 +62,11 @@ public class HomeServlet extends HttpServlet {
 				int age = Integer.parseInt(request.getParameter("age"));
 				String sex = request.getParameter("sex");
 				String phone = request.getParameter("phone");
-
-				Notebook product = new Notebook(surname, name, age, sex, phone);
+				String mail = request.getParameter("mail");
+				
+				Notebook product = new Notebook(surname, name, age, sex, phone, mail);
 				PropertiesDB.insert(product);
-				response.sendRedirect(request.getContextPath() + "/welcome");
+				response.sendRedirect(request.getContextPath() + "/welcome?mail="+ mail);
 			} catch (Exception ex) {
 
 				getServletContext().getRequestDispatcher("/WEB-INF/view/create.jsp").forward(request, response);
@@ -74,10 +80,11 @@ public class HomeServlet extends HttpServlet {
 				int age = Integer.parseInt(request.getParameter("age"));
 				String sex = request.getParameter("sex");
 				String phone = request.getParameter("phone");
+				String mail = request.getParameter("mail");
 
-				Notebook product = new Notebook(id, surname, name, age, sex, phone);
+				Notebook product = new Notebook(id, surname, name, age, sex, phone , mail);
 				PropertiesDB.update(product);
-				response.sendRedirect(request.getContextPath() + "/welcome");
+				response.sendRedirect(request.getContextPath() + "/welcome?mail="+mail);
 			} catch (Exception ex) {
 
 				getServletContext().getRequestDispatcher("/WEB-INF/view/notfound.jsp").forward(request, response);
@@ -85,10 +92,13 @@ public class HomeServlet extends HttpServlet {
 
 		}
 		if (path.equals("/delete")) {
+			
+			
 			try {
 				int id = Integer.parseInt(request.getParameter("id"));
+				String mail = request.getParameter("mail");
 				PropertiesDB.delete(id);
-				response.sendRedirect(request.getContextPath() + "/welcome");
+				response.sendRedirect(request.getContextPath() + "/welcome?mail="+mail);
 			} catch (Exception ex) {
 				getServletContext().getRequestDispatcher("/WEB-INF/view/notfound.jsp").forward(request, response);
 			}
@@ -110,7 +120,7 @@ public class HomeServlet extends HttpServlet {
 				}
 				if (key) {
 					request.setAttribute("product", product_by_id);
-					response.sendRedirect(request.getContextPath() + "/welcome");
+					response.sendRedirect(request.getContextPath() + "/welcome?mail="+mail);
 
 				} else {
 					getServletContext().getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);

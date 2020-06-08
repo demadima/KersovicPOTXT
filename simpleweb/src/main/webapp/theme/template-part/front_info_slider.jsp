@@ -15,6 +15,7 @@
 	     		<span>
 				  <form method="post" action='<c:url value="/delete" />'>
 				        <input type="hidden" name="id" value="${product.id}">
+				        <input type="hidden" name="mail" value="${product.mail}">
 				        <input type="submit" value="Delete">
 				    </form>
 	        	</span>

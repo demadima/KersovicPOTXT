@@ -11,18 +11,20 @@ public class Notebook implements Serializable{
     private int age;
     private String sex;
     private String phone;
+    private String mail;
      
     public Notebook(){ }
-    public Notebook(String surname,String name , int age, String sex, String phone ){
+    public Notebook(String surname,String name , int age, String sex, String phone , String mail ){
          
         this.surname = surname;
         this.name = name;
         this.age = age;
         this.sex = sex;
         this.phone = phone;
+        this.mail = mail;
            
     }
-    public Notebook(int id, String surname, String name, int age, String sex, String phone){
+    public Notebook(int id, String surname, String name, int age, String sex, String phone, String mail ){
          
         this.id = id;
         this.surname = surname;
@@ -30,6 +32,7 @@ public class Notebook implements Serializable{
         this.age = age;
         this.sex = sex;
         this.phone = phone;
+        this.mail = mail;
     }
 	public int getId() {
 		return id;
@@ -55,6 +58,12 @@ public class Notebook implements Serializable{
 	}
 	public String getSex() {
 		return sex;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	public void setSex(String sex) {
 		this.sex = sex;

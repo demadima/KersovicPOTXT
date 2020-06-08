@@ -1,4 +1,5 @@
 <form method="post" action="" class="feedback__form">
+<input type="hidden" value="${mail}" name="mail" />
     <div class="feedback__row">
             <div class="feedback__input">
                 <label for="">

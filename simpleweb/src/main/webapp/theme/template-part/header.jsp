@@ -45,8 +45,11 @@
 							</li>
 							<li id="menu-item-6696"
 								class="menu-item menu-item-type-wettbewerb menu-item-object-cpt-archive menu-item-6696">
-
-								<a href="/create">Create new contact</a>
+						
+								 
+								
+								 <a href='<c:url value="/create?mail=${mail}" />'>   Create new contact  </a>
+								 
 							</li>
 						</ul>
 					</nav>
